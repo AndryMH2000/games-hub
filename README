@@ -1,0 +1,255 @@
+# Games Hub - Buscador de Videojuegos
+
+Aplicación web para consultar información de videojuegos desde múltiples tiendas digitales.
+
+## 📋 Características
+
+- ✅ Carga masiva de juegos desde archivo TXT
+- ✅ Búsqueda de información en RAWG API
+- ✅ Almacenamiento en LocalStorage (navegador)
+- ✅ Diseño responsive con Bootstrap
+- ✅ Sin necesidad de servidor o base de datos
+- ✅ Visualización de:
+  - Nombre del juego
+  - Imagen
+  - Precio
+  - Descuentos
+  - Plataformas disponibles
+  - Categorías/géneros
+  - Rating
+
+## 🚀 Estructura del Proyecto
+
+```
+games-hub/
+├── index.html          # Página principal - visualización de juegos
+├── upload.html         # Página de carga de archivos TXT
+├── styles.css          # Estilos personalizados
+├── ejemplo_juegos.txt  # Archivo de ejemplo
+└── README.md          # Este archivo
+```
+
+## 📦 Instalación Local
+
+1. **Clonar o descargar el proyecto:**
+   ```bash
+   git clone https://github.com/AndryMH2000/games-hub.git
+   cd games-hub
+   ```
+
+2. **Abrir en el navegador:**
+   - Simplemente abre `index.html` en tu navegador
+   - No requiere servidor web
+
+## 🌐 Despliegue en GitHub Pages
+
+### Paso 1: Crear repositorio en GitHub
+
+1. Ve a https://github.com/new
+2. Nombre del repositorio: `games-hub`
+3. Descripción: "Buscador de videojuegos con información de múltiples tiendas"
+4. Selecciona **Público**
+5. Haz clic en **Create repository**
+
+### Paso 2: Subir archivos
+
+**Opción A: Desde la web de GitHub**
+
+1. En tu repositorio recién creado, haz clic en "uploading an existing file"
+2. Arrastra todos los archivos:
+   - index.html
+   - upload.html
+   - styles.css
+   - ejemplo_juegos.txt
+   - README.md
+3. Haz clic en "Commit changes"
+
+**Opción B: Desde la terminal (si tienes Git instalado)**
+
+```bash
+# Navega a la carpeta de tu proyecto
+cd ruta/a/tu/proyecto
+
+# Inicializa Git
+git init
+
+# Agrega todos los archivos
+git add .
+
+# Haz el primer commit
+git commit -m "Primer commit: Games Hub"
+
+# Conecta con tu repositorio
+git remote add origin https://github.com/AndryMH2000/games-hub.git
+
+# Sube los archivos
+git branch -M main
+git push -u origin main
+```
+
+### Paso 3: Activar GitHub Pages
+
+1. En tu repositorio, ve a **Settings** (Configuración)
+2. En el menú lateral, haz clic en **Pages**
+3. En **Source**, selecciona:
+   - Branch: `main`
+   - Folder: `/ (root)`
+4. Haz clic en **Save**
+5. Espera unos minutos y tu sitio estará disponible en:
+   ```
+   https://andrymh2000.github.io/games-hub/
+   ```
+
+## 🎮 Uso
+
+### 1. Preparar archivo TXT
+
+Crea un archivo de texto con nombres de juegos, uno por línea:
+
+```
+The Witcher 3
+Cyberpunk 2077
+Elden Ring
+Red Dead Redemption 2
+Grand Theft Auto V
+```
+
+### 2. Cargar juegos
+
+1. Abre la aplicación
+2. Ve a "Cargar Juegos"
+3. Selecciona tu archivo TXT
+4. Revisa la vista previa
+5. Haz clic en "Procesar y Guardar Juegos"
+6. Espera a que termine el proceso
+
+### 3. Ver juegos
+
+1. Ve a "Inicio"
+2. Verás todos los juegos cargados
+3. Usa la barra de búsqueda para filtrar
+
+### 4. Limpiar datos
+
+- Haz clic en "Limpiar Datos" en el menú
+- Confirma la acción
+- Todos los juegos guardados se eliminarán
+
+## 💾 Almacenamiento
+
+- Los datos se guardan en **LocalStorage** del navegador
+- Límite aproximado: **5-10 MB** (suficiente para cientos de juegos)
+- Los datos persisten incluso si cierras el navegador
+- Los datos son locales a tu navegador (no se comparten entre dispositivos)
+
+## 📱 Responsive
+
+La aplicación se adapta automáticamente a:
+- 📱 Móviles (< 576px)
+- 📱 Tablets (576px - 768px)
+- 💻 Laptops (768px - 992px)
+- 🖥️ Desktops (> 992px)
+
+## 🔧 Tecnologías Utilizadas
+
+- **HTML5** - Estructura
+- **CSS3** - Estilos personalizados
+- **JavaScript** (Vanilla) - Lógica de la aplicación
+- **Bootstrap 5.3** - Framework CSS responsive
+- **Bootstrap Icons** - Iconografía
+- **RAWG API** - Base de datos de videojuegos
+- **LocalStorage** - Almacenamiento local
+
+## 🐛 Solución de problemas
+
+### Los juegos no se guardan
+- Verifica que tu navegador permita LocalStorage
+- Algunos navegadores en modo incógnito no permiten guardar datos
+- Intenta con otro navegador (Chrome, Firefox, Edge)
+
+### Error de API
+- Verifica que tengas conexión a internet
+- La API de RAWG tiene un límite de 20,000 requests/mes
+- Espera unos minutos si has hecho muchas búsquedas
+
+### La página no se ve bien
+- Limpia la caché del navegador (Ctrl + F5)
+- Verifica que `styles.css` esté en la misma carpeta
+
+### GitHub Pages no funciona
+- Espera 5-10 minutos después de activar Pages
+- Verifica que los archivos estén en la raíz del repositorio
+- Revisa que el repositorio sea público
+
+## 📊 Limitaciones
+
+- **RAWG API:** 20,000 requests/mes (gratuito)
+- **LocalStorage:** ~5-10 MB por dominio
+- **Datos locales:** No se sincronizan entre dispositivos
+- **Precios:** RAWG no proporciona precios en tiempo real
+
+## 🔮 Mejoras futuras
+
+- [ ] Sincronización en la nube (opcional con Firebase)
+- [ ] Exportar/importar datos en JSON
+- [ ] Filtros avanzados (género, plataforma, año)
+- [ ] Comparación de precios con CheapShark API
+- [ ] Sistema de favoritos
+- [ ] Modo oscuro/claro
+- [ ] Gráficos de estadísticas
+
+## 🎨 Personalización
+
+### Cambiar colores del tema
+
+Edita `styles.css`:
+
+```css
+.hero-section {
+    background: linear-gradient(135deg, #TU_COLOR_1 0%, #TU_COLOR_2 100%);
+}
+```
+
+### Modificar el logo
+
+Cambia el ícono en `index.html` y `upload.html`:
+
+```html
+<i class="bi bi-TU_ICONO"></i>
+```
+
+[Ver todos los íconos disponibles](https://icons.getbootstrap.com/)
+
+## 📝 Notas importantes
+
+- **Los datos son privados:** Cada usuario guarda sus propios juegos localmente
+- **Sin backend:** No requiere servidor ni base de datos
+- **100% gratuito:** No hay costos de hosting o APIs
+- **Privacidad:** No se recopilan datos de usuarios
+
+## 👨‍💻 Autor
+
+**Andry Jesus Murillo Hidalgo**
+- GitHub: [@AndryMH2000](https://github.com/AndryMH2000)
+- Proyecto: [Games Hub](https://andrymh2000.github.io/games-hub/)
+
+## 📄 Licencia
+
+Este proyecto es de código abierto y está disponible para uso educativo.
+
+## 🙏 Agradecimientos
+
+- [RAWG.io](https://rawg.io/) - API de videojuegos
+- [Bootstrap](https://getbootstrap.com/) - Framework CSS
+- [Bootstrap Icons](https://icons.getbootstrap.com/) - Iconografía
+
+---
+
+⭐ Si te gusta el proyecto, dale una estrella en GitHub!
+
+## 📞 Soporte
+
+Si tienes problemas o preguntas:
+1. Revisa la sección de "Solución de problemas"
+2. Abre un Issue en GitHub
+3. Verifica la consola del navegador (F12) para errores
