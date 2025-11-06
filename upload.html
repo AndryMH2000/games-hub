@@ -65,6 +65,7 @@
                                 <li>Cada juego debe estar en una línea separada</li>
                                 <li>Ejemplo: "The Witcher 3", "Cyberpunk 2077", "Elden Ring"</li>
                                 <li>Los datos se guardarán en tu navegador (LocalStorage)</li>
+                                <li><strong>Nota:</strong> El scraping puede tardar varios segundos por juego</li>
                             </ul>
                         </div>
 
@@ -74,7 +75,7 @@
                             <input type="file" class="form-control" id="fileInput" accept=".txt">
                         </div>
 
-                        <!-- Preview Section -->    
+                        <!-- Preview Section -->
                         <div id="previewSection" style="display: none;">
                             <h5>Vista previa de juegos:</h5>
                             <div class="preview-box p-3 bg-light rounded mb-3">
@@ -152,15 +153,15 @@ Grand Theft Auto V</pre>
     <!-- Footer -->
     <footer class="bg-dark text-white mt-5 py-4">
         <div class="container text-center">
-            <p class="mb-0">&copy; 2024 Games Hub. Datos proporcionados por scrapers</p>
+            <p class="mb-0">&copy; 2024 Games Hub. Datos obtenidos mediante web scraping</p>
         </div>
     </footer>
 
-    <!-- JavaScript --> 
+    <!-- JavaScript -->
     <script>
-
-        const BACKEND_URL = 'https://heroic-tenderness-production.up.railway.app'; 
-
+        // Backend API URL - CAMBIA ESTO POR TU URL DE RAILWAY
+        const BACKEND_URL = 'https://tu-url-railway.up.railway.app';
+        
         let gamesList = [];
 
         // File input handler
@@ -220,8 +221,8 @@ Grand Theft Auto V</pre>
                     errorGames.push(gameName);
                 }
 
-                // Small delay to avoid rate limiting
-                await new Promise(resolve => setTimeout(resolve, 500));
+                // Delay to avoid overwhelming the backend
+                await new Promise(resolve => setTimeout(resolve, 2000));
             }
 
             // Save to LocalStorage
@@ -246,26 +247,42 @@ Grand Theft Auto V</pre>
             document.getElementById('processBtn').disabled = false;
         });
 
-        // Search game in RAWG API
+        // Search game using backend scraper
         async function searchGame(gameName) {
             try {
-                const response = await fetch(
-                    `https://api.rawg.io/api/games?key=${RAWG_API_KEY}&search=${encodeURIComponent(gameName)}&page_size=1`
-                );
+                const response = await fetch(`${BACKEND_URL}/api/search`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ gameName: gameName })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
                 const data = await response.json();
 
-                if (data.results && data.results.length > 0) {
-                    const game = data.results[0];
+                if (data && data.stores) {
+                    // Get data from the first available store
+                    const availableStores = Object.values(data.stores).filter(store => store !== null);
+                    
+                    if (availableStores.length === 0) {
+                        return null;
+                    }
+
+                    const primaryStore = availableStores[0];
+
                     return {
-                        name: game.name,
-                        image: game.background_image,
-                        rating: game.rating,
-                        platforms: game.platforms ? game.platforms.map(p => p.platform.name) : [],
-                        genres: game.genres ? game.genres.map(g => g.name) : [],
-                        price: 'Consultar tienda',
-                        discount: null,
-                        released: game.released,
-                        metacritic: game.metacritic
+                        name: primaryStore.name || gameName,
+                        image: data.images && data.images.length > 0 ? data.images[0] : primaryStore.image,
+                        rating: 'N/A',
+                        platforms: data.platforms || [],
+                        genres: data.genres || [],
+                        price: data.bestPrice || primaryStore.price || 'Consultar tienda',
+                        discount: primaryStore.discount || null,
+                        stores: data.stores
                     };
                 }
                 return null;
