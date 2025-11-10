@@ -159,7 +159,7 @@ Grand Theft Auto V</pre>
 
     <!-- JavaScript -->
     <script>
-        // Backend API URL - CAMBIA ESTO POR TU URL DE RAILWAY
+
         const BACKEND_URL = 'https://heroic-tenderness-production.up.railway.app';
         
         let gamesList = [];
@@ -248,49 +248,16 @@ Grand Theft Auto V</pre>
         });
 
         // Search game using backend scraper
-        async function searchGame(gameName) {
-            try {
-                const response = await fetch(`${BACKEND_URL}/api/search`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ gameName: gameName })
-                });
-
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-
-                const data = await response.json();
-
-                if (data && data.stores) {
-                    // Get data from the first available store
-                    const availableStores = Object.values(data.stores).filter(store => store !== null);
-                    
-                    if (availableStores.length === 0) {
-                        return null;
-                    }
-
-                    const primaryStore = availableStores[0];
-
-                    return {
-                        name: primaryStore.name || gameName,
-                        image: data.images && data.images.length > 0 ? data.images[0] : primaryStore.image,
-                        rating: 'N/A',
-                        platforms: data.platforms || [],
-                        genres: data.genres || [],
-                        price: data.bestPrice || primaryStore.price || 'Consultar tienda',
-                        discount: primaryStore.discount || null,
-                        stores: data.stores
-                    };
-                }
-                return null;
-            } catch (error) {
-                console.error('Error searching game:', error);
-                return null;
-            }
-        }
+        return {
+            name: primaryStore.name || gameName,
+            image: data.images && data.images.length > 0 ? data.images[0] : primaryStore.image,
+            rating: 'N/A',
+            platforms: data.platforms || [],  // Usa las plataformas agregadas de TODAS las tiendas
+            genres: data.genres || [],        // Usa los géneros agregados de TODAS las tiendas
+            price: data.bestPrice || primaryStore.price || 'Consultar tienda',
+            discount: primaryStore.discount || null,
+            stores: data.stores
+        };
 
         // Download example file
         document.getElementById('downloadExample').addEventListener('click', () => {
